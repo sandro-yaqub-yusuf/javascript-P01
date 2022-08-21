@@ -5,7 +5,7 @@
 * Frameworks utilizadas: nenhum
 * Banco de Dados utilizado: nenhum (usando apenas variaveis de memória do tipo array)
 * Editor utilizado: Visual Studio Code
-* Informações extras: Necessita conhecimentos médios em Javascript. Este projeto não utiliza qualquer meio de gravação de dados em disco.
+* Informações extras: Necessita conhecimentos médios em Javascript, HTML5 e CSS3.
 
 ----
 
