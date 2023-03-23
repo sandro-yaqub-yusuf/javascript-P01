@@ -1,6 +1,6 @@
 let cart = [];    // Para controlar os itens que estão no carrinho de compras
 let modalQt = 0;  // Guarda a quantidade da pizza selecionada
-let modalKey = 0; // Pàra saber qual pizza foi selecionado no momento
+let modalKey = 0; // Para saber qual pizza foi selecionado no momento
 
 const qs  = (el) => document.querySelector(el);
 const qsa = (el) => document.querySelectorAll(el);
@@ -60,6 +60,20 @@ qsa('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) =
 	item.addEventListener('click', closeModal);
 });
 
+// Faz uma leitura em todos os tamanhos da pizza selecionada
+qsa('.pizzaInfo--size').forEach((size, sizeIndex) => {
+    // Adiciona o evento CLICK para a DIV ".pizzaInfo--size.selected"
+    size.addEventListener('click', () => {
+		qs('.pizzaInfo--size.selected').classList.remove('selected'); // Remove a seleção do tamanho
+
+        // Seleciona o tamanho escolhido pelo usuário
+        size.classList.add('selected');
+
+        // Exibe o preço da pizza de acordo com o tamanho selecionado
+        qs('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[modalKey].prices[sizeIndex].toFixed(2).replace(".", ",")}`;
+	});
+});
+
 // Adiciona o evento CLICK para a DIV ".pizzaInfo--qtmais"
 qs('.pizzaInfo--qtmais').addEventListener('click', () => {
 	modalQt++;
@@ -76,20 +90,6 @@ qs('.pizzaInfo--qtmenos').addEventListener('click', () => {
 		// Substitui a quantidade atual pela selecionada
         qs('.pizzaInfo--qt').innerHTML = modalQt;
 	}
-});
-
-// Faz uma leitura em todos os tamanhos da pizza selecionada
-qsa('.pizzaInfo--size').forEach((size, sizeIndex) => {
-    // Adiciona o evento CLICK para a DIV ".pizzaInfo--size.selected"
-    size.addEventListener('click', () => {
-		qs('.pizzaInfo--size.selected').classList.remove('selected'); // Remove a seleção do tamanho
-
-        // Seleciona o tamanho escolhido pelo usuário
-        size.classList.add('selected');
-
-        // Exibe o preço da pizza de acordo com o tamanho selecionado
-        qs('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[modalKey].prices[sizeIndex].toFixed(2).replace(".", ",")}`;
-	});
 });
 
 // Adiciona o evento CLICK para a DIV ".pizzaInfo--addButton" (botão "Adicionar no carrinho")
@@ -135,6 +135,15 @@ function closeModal() {
 
 		modalQt = 1;
 	}, 500);
+}
+
+// Função para, de acordo com a seleção do tamanho da Pizza, retornar o nome correspondente
+function getSizeName(pizzaItem) {
+	switch (cart[pizzaItem].size) {
+		case 0: return 'Pequena';
+		case 1: return 'Média';
+		case 2: return 'Grande';
+	}
 }
 
 // Função para atualizar e exibir as informações do carrinho de compras
@@ -196,14 +205,5 @@ function updateCart() {
 	} else {
 		qs('aside').classList.remove('show'); // Esconde o carrinho de compras na versão desktop e mobile
 		qs('aside').style.left = '100vw';
-	}
-}
-
-function getSizeName(pizzaItem) {
-	// De acordo com a seleção do tamanho da Pizza, retorna o nome correspondente
-	switch (cart[pizzaItem].size) {
-		case 0: return 'Pequena';
-		case 1: return 'Média';
-		case 2: return 'Grande';
 	}
 }
